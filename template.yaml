@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Lambda function for organiser-service
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+
+Resources:
+  OrganiserServiceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ImageUri: "organiserservicefunction:java11-maven-v1"
+      PackageType: "Image"
+      Events:
+        BaseOrganiser:
+          Type: Api
+          Properties:
+            Path: /v1/organisers
+            Method: any
+        BasicOrganiser:
+          Type: Api
+          Properties:
+            Path: /v1/organisers/basic/{id}
+            Method: get
+        CreateOrganiser:
+          Type: Api
+          Properties:
+            Path: /v1/organisers/create/
+            Method: post
+        DeleteOrganiser:
+          Type: Api
+          Properties:
+            Path: /v1/organisers/delete/{id}
+            Method: delete
+        DetailedOrganiser:
+          Type: Api
+          Properties:
+            Path: /v1/organisers/detailed/{id}
+            Method: get
+        EventsOrganiser:
+          Type: Api
+          Properties:
+            Path: /v1/organisers/events/{id}
+            Method: get
+        UpdateOrganiser:
+          Type: Api
+          Properties:
+            Path: /v1/organisers/update/{id}
+            Method: post
+    Metadata:
+      DockerTag: java11-maven-v1
+      DockerContext: ./OrganiserServiceFunction
+      Dockerfile: Dockerfile
