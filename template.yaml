@@ -24,7 +24,7 @@ Resources:
           ReadOrganiser:
             Type: Api
             Properties:
-              Path: /v1/organisers/basic/{id}
+              Path: /v1/organisers/{id}
               Method: get
           DeleteOrganiser:
             Type: Api
