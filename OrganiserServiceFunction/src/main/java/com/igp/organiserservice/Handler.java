@@ -21,7 +21,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
     private ResponseEntity<?> routeRequest(APIGatewayProxyRequestEvent event, Context context, OrganiserService service) {
         return new PatternMatcher<String, ResponseEntity<?>>()
                 .defineCase(
-                        "/v1/organisers/basic/{id}", service.getOrganiser(event, context),
+                        "/v1/organisers/{id}", service.getOrganiser(event, context),
                         () -> event.getHttpMethod().equals("GET"))
 
                 .defineCase(
@@ -33,7 +33,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         () -> event.getHttpMethod().equals("DELETE"))
 
                 .defineCase(
-                        "/v1/organisers/update/{id}", service.updateOrganiser(event, context),
+                        "/v1/organisers/update", service.updateOrganiser(event, context),
                         () -> event.getHttpMethod().equals("POST"))
 
                 .defaultCase(ResponseEntity.notFound())

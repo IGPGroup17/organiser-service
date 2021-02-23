@@ -19,7 +19,7 @@ Resources:
           CreateOrganiser:
             Type: Api
             Properties:
-              Path: /v1/organisers/{id}
+              Path: /v1/organisers/
               Method: post
           ReadOrganiser:
             Type: Api
@@ -34,7 +34,7 @@ Resources:
           UpdateOrganiser:
             Type: Api
             Properties:
-              Path: /v1/organisers/{id}
+              Path: /v1/organisers/
               Method: put
     Metadata:
       DockerTag: java11-maven-v1
