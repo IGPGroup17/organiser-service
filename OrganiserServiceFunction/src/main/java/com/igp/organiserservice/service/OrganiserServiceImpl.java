@@ -2,43 +2,41 @@ package com.igp.organiserservice.service;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.igp.organiserservice.dao.OrganiserCrudDao;
+import com.igp.organiserservice.dao.OrganiserServiceDaoImpl;
 import com.igp.organiserservice.model.*;
+import com.igp.organiserservice.util.RequestBodyReader;
 import com.igp.organiserservice.util.ResponseEntity;
+import com.igp.organiserservice.util.path.PathParameters;
 
 public class OrganiserServiceImpl implements OrganiserService {
 
-    @Override
-    public ResponseEntity<OrganiserBasic> getBasicOrganiser(APIGatewayProxyRequestEvent event, Context context) {
-        return ResponseEntity.ok(Examples.EXAMPLE_BASIC);
-    }
+    private OrganiserCrudDao organiserCrudDao;
 
-    @Override
-    public ResponseEntity<OrganiserDetailed> getDetailedOrganiser(APIGatewayProxyRequestEvent event, Context context) {
-        return ResponseEntity.ok(Examples.EXAMPLE_DETAILED);
-    }
-
-    @Override
-    public ResponseEntity<OrganiserEvents> getEventsOrganiser(APIGatewayProxyRequestEvent event, Context context) {
-        return ResponseEntity.ok(Examples.EXAMPLE_UNI);
-    }
-
-    @Override
-    public ResponseEntity<Organiser> updateOrganiser(APIGatewayProxyRequestEvent event, Context context) {
-        return ResponseEntity.ok(new Organiser("Update"));
+    public OrganiserServiceImpl() {
+        this.organiserCrudDao = new OrganiserServiceDaoImpl();
     }
 
     @Override
     public ResponseEntity<Organiser> createOrganiser(APIGatewayProxyRequestEvent event, Context context) {
-        return ResponseEntity.ok(new Organiser("Create"));
+        Organiser organiser = RequestBodyReader.getAsObject(event.getBody(),Organiser.class);
+        return ResponseEntity.ok(organiserCrudDao.createOrganiser(organiser));
+    }
+
+    @Override
+    public ResponseEntity<Organiser> getOrganiser(APIGatewayProxyRequestEvent event, Context context) {
+        return ResponseEntity.ok(organiserCrudDao.readOrganiser(PathParameters.getPathParameter(event,"id")));
+    }
+
+    @Override
+    public ResponseEntity<Organiser> updateOrganiser(APIGatewayProxyRequestEvent event, Context context) {
+        Organiser organiser = RequestBodyReader.getAsObject(event.getBody(),Organiser.class);
+        return ResponseEntity.ok(organiserCrudDao.updateOrganiser(organiser));
     }
 
     @Override
     public ResponseEntity<Organiser> deleteOrganiser(APIGatewayProxyRequestEvent event, Context context) {
-        return ResponseEntity.ok(new Organiser("Delete"));
-    }
-
-    @Override
-    public ResponseEntity<Organiser> addEvent(APIGatewayProxyRequestEvent event, Context context) {
-        return ResponseEntity.ok(new Organiser("Added Event"));
+        organiserCrudDao.deleteOrganiser((PathParameters.getPathParameter(event,"id")));
+        return null;
     }
 }
