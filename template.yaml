@@ -15,41 +15,27 @@ Resources:
       ImageUri: "organiserservicefunction:java11-maven-v1"
       PackageType: "Image"
       Events:
-        BaseOrganiser:
-          Type: Api
-          Properties:
-            Path: /v1/organisers
-            Method: any
-        BasicOrganiser:
-          Type: Api
-          Properties:
-            Path: /v1/organisers/basic/{id}
-            Method: get
-        CreateOrganiser:
-          Type: Api
-          Properties:
-            Path: /v1/organisers/create/
-            Method: post
-        DeleteOrganiser:
-          Type: Api
-          Properties:
-            Path: /v1/organisers/delete/{id}
-            Method: delete
-        DetailedOrganiser:
-          Type: Api
-          Properties:
-            Path: /v1/organisers/detailed/{id}
-            Method: get
-        EventsOrganiser:
-          Type: Api
-          Properties:
-            Path: /v1/organisers/events/{id}
-            Method: get
-        UpdateOrganiser:
-          Type: Api
-          Properties:
-            Path: /v1/organisers/update/{id}
-            Method: post
+        Events:
+          CreateOrganiser:
+            Type: Api
+            Properties:
+              Path: /v1/organisers/{id}
+              Method: post
+          ReadOrganiser:
+            Type: Api
+            Properties:
+              Path: /v1/organisers/{id}
+              Method: get
+          DeleteOrganiser:
+            Type: Api
+            Properties:
+              Path: /v1/organisers/{id}
+              Method: delete
+          UpdateOrganiser:
+            Type: Api
+            Properties:
+              Path: /v1/organisers/{id}
+              Method: put
     Metadata:
       DockerTag: java11-maven-v1
       DockerContext: ./OrganiserServiceFunction
